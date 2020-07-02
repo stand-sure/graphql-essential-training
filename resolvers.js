@@ -5,8 +5,14 @@
 const Gender = {
     MALE: "MALE",
     FEMALE: "FEMALE",
-    OTHER: "OTHER"
-}
+    OTHER: "OTHER",
+};
+
+/**
+ * @typedef {Object} Contact
+ * @property {String} firstName
+ * @property {String} lastName
+ */
 
 /**
  * @typedef {Object} Friend
@@ -16,6 +22,7 @@ const Gender = {
  * @property {Number} age
  * @property {String} language
  * @property {String} email
+ * @property {Array<Contact>} contacts
  */
 const friendFactory = {
     /**
@@ -25,7 +32,7 @@ const friendFactory = {
      */
     create: function create(
         id,
-        { firstName, lastName, gender, age, language, email }
+        { firstName, lastName, gender, age, language, email, contacts }
     ) {
         return Object.freeze(
             Object.assign(Object.create(null), {
@@ -36,6 +43,7 @@ const friendFactory = {
                 age,
                 language,
                 email,
+                contacts,
             })
         );
     },
