@@ -1,14 +1,24 @@
 import { resolvers } from "./resolvers";
 import { makeExecutableSchema } from "graphql-tools";
+import gql from "graphql-tag";
 
-const typeDefs = `
+const typeDefs = gql`
     """
     A friend
     """
     type Friend {
         id: ID
+        """
+        First Name
+        """
         firstName: String
+        """
+        Last Name
+        """
         lastName: String
+        """
+        Gender - MALE | FEMALE | OTHER
+        """
         gender: Gender
         age: Int
         language: String
@@ -19,15 +29,36 @@ const typeDefs = `
         contacts: [Contact]
     }
 
+    """
+    Alien
+    """
     type Alien {
         id: ID
+        """
+        First Name
+        """
         firstName: String
+        """
+        Last Name
+        """
         lastName: String
+        """
+        Planet of origin
+        """
         planet: String
     }
 
+    """
+    Contact
+    """
     type Contact {
+        """
+        First Name
+        """
         firstName: String
+        """
+        Last Name
+        """
         lastName: String
     }
 
@@ -37,8 +68,17 @@ const typeDefs = `
         OTHER
     }
 
+    """
+    Queries
+    """
     type Query {
+        """
+        Gets one friend by id.
+        """
         getOneFriend(id: ID) : Friend
+        """
+        Gets all aliens.
+        """
         getAliens: [Alien]
     }
 

@@ -27,30 +27,7 @@ const Gender = {
  * @property {String} email
  * @property {Array<Contact>} contacts
  */
-const friendFactory = {
-    /**
-     * @param {String} id
-     * @param {Friend} obj
-     * @returns {Friend}
-     */
-    create: function create(
-        id,
-        { firstName, lastName, gender, age, language, email, contacts }
-    ) {
-        return Object.freeze(
-            Object.assign(Object.create(null), {
-                id,
-                firstName,
-                lastName,
-                gender,
-                age,
-                language,
-                email,
-                contacts,
-            })
-        );
-    },
-};
+
 
 /**
  * @param {Object} root
