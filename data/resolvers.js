@@ -1,5 +1,4 @@
-// import mongoose from "mongoose";
-import { Friends } from "./dbConnectors";
+import { Friends, Aliens } from "./dbConnectors";
 
 /**
  * @readonly
@@ -52,12 +51,6 @@ const friendFactory = {
         );
     },
 };
-
-// /**
-//  * @type {Object}
-//  * @property {Friend} [any]
-//  */
-// const friendDatabase = {};
 
 /**
  * @param {Object} root
@@ -126,7 +119,7 @@ const deleteFriend = function deleteFriend(root, { id }) {
  * @param {String} obj.id
  * @returns {Promise<any>}
  */
-const getFriend = function getFriend(root, { id }) {
+const getOneFriend = function getFriend(root, { id }) {
     console.log(`getFriend: ${id}`);
     return new Promise((resolve, reject) => {
         Friends.findOne({ _id: id }, (err, friend) => {
@@ -139,9 +132,14 @@ const getFriend = function getFriend(root, { id }) {
     });
 };
 
+const getAliens = function getAliens() {
+    return Aliens.findAll();
+};
+
 const resolvers = {
     Query: {
-        getFriend,
+        getOneFriend,
+        getAliens,
     },
     Mutation: {
         createFriend,
