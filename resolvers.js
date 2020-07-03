@@ -75,8 +75,12 @@ const getFriend = function getFriend({ id }) {
 };
 
 const resolvers = {
-    getFriend,
-    createFriend,
+    Query: {
+        getFriend,
+    },
+    Mutation: {
+        createFriend,
+    },
 };
 
-export default resolvers;
+export { resolvers };
