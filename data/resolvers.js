@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import { Friends } from "./dbConnectors";
 
 /**
@@ -19,6 +19,7 @@ const Gender = {
 
 /**
  * @typedef {Object} Friend
+ * @property {String} id
  * @property {String} firstName
  * @property {String} lastName
  * @property {Gender} gender
@@ -52,16 +53,17 @@ const friendFactory = {
     },
 };
 
-/**
- * @type {Object}
- * @property {Friend} [any]
- */
-const friendDatabase = {};
+// /**
+//  * @type {Object}
+//  * @property {Friend} [any]
+//  */
+// const friendDatabase = {};
 
 /**
  * @param {Object} root
  * @param {Object} obj
  * @param {Friend} obj.input
+ * @returns {Promise<any>}
  */
 const createFriend = function createFriend(root, { input }) {
     const newFriend = new Friends({
@@ -82,12 +84,59 @@ const createFriend = function createFriend(root, { input }) {
 };
 
 /**
+ * @param {Object} root
+ * @param {Object} obj
+ * @param {Friend} obj.input
+ * @returns {Promise<any>}
+ */
+const updateFriend = function updateFriend(root, { input }) {
+    return new Promise((resolve, reject) => {
+        Friends.findOneAndUpdate(
+            { _id: input.id },
+            input,
+            { new: true },
+            (err, updated) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(updated);
+                }
+            }
+        );
+    });
+};
+
+/**
+ * @param {Object} root
  * @param {Object} obj
  * @param {String} obj.id
- * @returns {Friend}
+ * @returns {Promise<String>}
  */
-const getFriend = function getFriend({ id }) {
-    return friendFactory.create(id, friendDatabase[id]);
+const deleteFriend = function deleteFriend(root, { id }) {
+    return new Promise((resolve, reject) => {
+        Friends.deleteOne({ _id: id }, (err) => {
+            err ? reject(err) : resolve(`deleted friend ${id}`);
+        });
+    });
+};
+
+/**
+ * @param {Object} root
+ * @param {Object} obj
+ * @param {String} obj.id
+ * @returns {Promise<any>}
+ */
+const getFriend = function getFriend(root, { id }) {
+    console.log(`getFriend: ${id}`);
+    return new Promise((resolve, reject) => {
+        Friends.findOne({ _id: id }, (err, friend) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(friend);
+            }
+        });
+    });
 };
 
 const resolvers = {
@@ -96,6 +145,8 @@ const resolvers = {
     },
     Mutation: {
         createFriend,
+        updateFriend,
+        deleteFriend,
     },
 };
 

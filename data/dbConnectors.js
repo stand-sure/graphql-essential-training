@@ -5,7 +5,8 @@ import casual from "casual";
 
 mongoose.Promise = globalThis.Promise;
 connect("mongodb://localhost/friends", {
-    useMongoClient: true,
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
 });
 
 const friendSchema = new Schema({
@@ -51,14 +52,14 @@ const Aliens = sequelize.define("aliens", {
     },
 });
 
-Aliens.sync({ force: true}).then(() => {
+Aliens.sync({ force: true }).then(() => {
     _.times(10, (i) => {
         Aliens.create({
             firstName: casual.first_name,
             lastName: casual.last_name,
-            planet: casual.word
-        })
-    })
+            planet: casual.word,
+        });
+    });
 });
 
 export { Friends, Aliens };

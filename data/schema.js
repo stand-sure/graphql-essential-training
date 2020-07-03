@@ -1,52 +1,10 @@
 import { resolvers } from "./resolvers";
 import { makeExecutableSchema } from "graphql-tools";
-// import graphql from "graphql";
-
-// const contactType = new graphql.GraphQLObjectType({
-//     name: "Contact",
-//     fields: {
-//         firstName: { type: graphql.GraphQLString },
-//         lastName: { type: graphql.GraphQLString },
-//     },
-// });
-
-// const genderType = new graphql.GraphQLEnumType({
-//     name: "Gender",
-//     values: {
-//         MALE: { value: "MALE" },
-//         FEMALE: { value: "FEMALE" },
-//         OTHER: { value: "OTHER" },
-//     },
-// });
-
-// const friendType = new graphql.GraphQLObjectType({
-//     name: "Friend",
-//     fields: {
-//         id: { type: graphql.GraphQLID },
-//         firstName: { type: graphql.GraphQLString },
-//         lastName: { type: graphql.GraphQLString },
-//         gender: { type: genderType },
-//         age: { type: graphql.GraphQLInt },
-//         language: { type: graphql.GraphQLString },
-//         email: { type: graphql.GraphQLString },
-//         contacts: { type: new graphql.GraphQLList(contactType) },
-//     },
-// });
-
-// const queryType = new graphql.GraphQLObjectType({
-//     name: "Query",
-//     fields: {
-//         getFriend: {
-//             type: friendType,
-//             args: {
-//                 id: { type: graphql.GraphQLID },
-//             },
-//             resolve: resolvers.Query.getFriend,
-//         },
-//     },
-// });
 
 const typeDefs = `
+    """
+    A friend
+    """
     type Friend {
         id: ID
         firstName: String
@@ -55,6 +13,9 @@ const typeDefs = `
         age: Int
         language: String
         email: String
+        """
+        Zero or more Contact objects
+        """
         contacts: [Contact]
     }
 
@@ -98,6 +59,8 @@ const typeDefs = `
 
     type Mutation {
         createFriend(input: FriendInput) : Friend
+        updateFriend(input: FriendInput) : Friend
+        deleteFriend(id: ID!) : String
     }
 `;
 
