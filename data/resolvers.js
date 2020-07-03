@@ -1,3 +1,6 @@
+import mongoose from "mongoose";
+import { Friends } from "./dbConnectors";
+
 /**
  * @readonly
  * @enum {String}
@@ -56,13 +59,26 @@ const friendFactory = {
 const friendDatabase = {};
 
 /**
+ * @param {Object} root
  * @param {Object} obj
  * @param {Friend} obj.input
  */
-const createFriend = function createFriend({ input }) {
-    let id = require("crypto").randomBytes(10).toString("hex");
-    friendDatabase[id] = input;
-    return friendFactory.create(id, input);
+const createFriend = function createFriend(root, { input }) {
+    const newFriend = new Friends({
+        ...input,
+    });
+
+    newFriend.id = newFriend._id;
+
+    return new Promise((resolve, reject) => {
+        newFriend.save((err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(newFriend);
+            }
+        });
+    });
 };
 
 /**
